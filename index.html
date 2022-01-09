@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Welcome to Shopify!
+    </title>
+<style>
+.inventory-form {
+    border-style: solid;
+    /* margin-bottom: 10px; */
+    /* margin-left: 30px; */
+    padding: 10px;
+    /* width: 100%; */
+    margin: auto;
+    width: 30%;
+    /* border: 3px solid green; */
+    /* padding: 10px; */
+}
+.inventory-table {
+  width: 50%;
+  margin: auto;
+  border: 3px solid #ddd;
+}
+
+th, td {
+  text-align: centre;
+  padding: 20px;
+  /* margin-left:15px; */
+}
+
+tr:nth-child(odd) {
+  background-color: #f2f2f2
+}
+</style>
+</head>
+
+<body>
+
+	<h1><center>Welcome to Shopify!</center></h1>
+	<hr>
+		<div class="inventory-form">
+        <form onsubmit="event.preventDefault();onFormSubmit();" autocomplete="off">
+            <div>
+		<label>Warehouse number</label>
+                <input type="number" min="1" max="4" name="warehouse" id="warehouse">
+            </div>
+	    <div>
+		<label>   Item   </label>
+                <input type="text" name="item" id="item">
+            </div>
+            <div>
+                <label>Quantity</label>
+                <input type="number" min="0" name="quantity" id="quantity">
+            </div>
+            <div  class="form-action-buttons">
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+		</div>
+		<br/>
+		<div class = "inventory-table">
+        <table class="list" id="inventoryList">
+            <thead>
+                <tr>
+                    <th>Warehouse Number</th>
+	            <th>Item</th>
+                    <th>Quantity</th>
+	            <th>Actions</th>
+                </tr>
+            </thead>
+		    <tbody>
+
+		    </tbody>
+	</table>   
+	<div>
+	<p><button onclick="sortTable()">Sort by Warehouse</button></p>
+	</div>
+    </div>
+<script>
+var selectedRow = null
+
+function onFormSubmit() {
+    var formData = readFormData();
+    if (selectedRow == null)
+        insertNewRecord(formData);
+    else
+        updateRecord(formData);
+    resetForm();
+
+}
+function readFormData() {
+    var formData = {};
+    formData["warehouse"] = document.getElementById("warehouse").value;
+    formData["item"] = document.getElementById("item").value;
+    formData["quantity"] = document.getElementById("quantity").value;
+    return formData;
+}
+
+function insertNewRecord(data) {
+    var table = document.getElementById("inventoryList").getElementsByTagName('tbody')[0];
+    var newRow = table.insertRow(table.length);
+    cell1 = newRow.insertCell(0);
+    cell1.innerHTML = data.warehouse;
+    cell2 = newRow.insertCell(1);
+    cell2.innerHTML = data.item;
+    cell3 = newRow.insertCell(2);
+    cell3.innerHTML = data.quantity;
+    cell4 = newRow.insertCell(3);
+    cell4.innerHTML = `<a onClick="onEdit(this)">Edit</a>
+                       <a onClick="onDelete(this)">Delete</a>`;
+}
+
+function resetForm() {
+    document.getElementById("warehouse").value = "";
+    document.getElementById("item").value = "";
+    document.getElementById("quantity").value = "";
+    selectedRow = null;
+}
+
+function onEdit(td) {
+    selectedRow = td.parentElement.parentElement;
+    document.getElementById("warehouse").value = selectedRow.cells[0].innerHTML;
+    document.getElementById("item").value = selectedRow.cells[1].innerHTML;
+    document.getElementById("quantity").value = selectedRow.cells[2].innerHTML;
+}
+
+function updateRecord(formData) {
+    selectedRow.cells[0].innerHTML = formData.warehouse;
+    selectedRow.cells[1].innerHTML = formData.item;
+    selectedRow.cells[2].innerHTML = formData.quantity;
+}
+
+function onDelete(td) {
+    if (confirm('Are you sure to delete this record ?')) {
+        row = td.parentElement.parentElement;
+        document.getElementById("inventoryList").deleteRow(row.rowIndex);
+        resetForm();
+    }
+}
+
+function sortTable() {
+  var table, rows, switching, i, x, y, shouldSwitch;
+  table = document.getElementById("inventoryList");
+  switching = true;
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+    for (i = 1; i < (rows.length - 1); i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName("TD")[0];
+      y = rows[i + 1].getElementsByTagName("TD")[0];
+      if (Number(x.innerHTML) > Number(y.innerHTML)) {
+        shouldSwitch = true;
+        break;
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+}
+
+</script>
+
+</body>
+</html>
+
