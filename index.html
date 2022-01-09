@@ -1,6 +1,21 @@
+<! 
+Hello! Welcome to My Shopify Internship Challenge.
+This program is written in HTML with JavaScript incorperated right into the HTML code.
+CSS style code is used to make the output easier to read.
+
+This project only contains one main function, for simplicity.
+To run, download the index.HTML file and launch it in a web browser (google chrome works best)
+Thanks for considering my application!
+
+-Alessia :)
+>
+
+
+
 <!DOCTYPE html>
 <html>
 
+<! disregard CSS code since it is not evaluated>
 <head>
     <title>
         Welcome to Shopify!
@@ -35,18 +50,22 @@ tr:nth-child(odd) {
 </style>
 </head>
 
+<! Main HTML program starts here>
+
 <body>
 
 	<h1><center>Welcome to Shopify!</center></h1>
 	<hr>
+		<! Form is created for user to input a warehouse number, item name, and item quantity>
+	
 		<div class="inventory-form">
         <form onsubmit="event.preventDefault();onFormSubmit();" autocomplete="off">
             <div>
 		<label>Warehouse number</label>
-                <input type="number" min="1" max="4" name="warehouse" id="warehouse">
+                <input type="number" min="1" max="4" name="warehouse" id="warehouse"> 		<!There are 4 different warehouses>
             </div>
 	    <div>
-		<label>   Item   </label>
+		<label>   Item name   </label>
                 <input type="text" name="item" id="item">
             </div>
             <div>
@@ -74,9 +93,12 @@ tr:nth-child(odd) {
 		    </tbody>
 	</table>   
 	<div>
-	<p><button onclick="sortTable()">Sort by Warehouse</button></p>
+	<p><button onclick="sortTable()">Sort by Warehouse</button></p>		<! This button is linked to a function that will sort all items by warehouse>
 	</div>
     </div>
+
+<! Main JacaScript program starts here>
+
 <script>
 var selectedRow = null
 
@@ -87,8 +109,10 @@ function onFormSubmit() {
     else
         updateRecord(formData);
     resetForm();
-
 }
+
+//this function stores the information from the dorm as a value
+	
 function readFormData() {
     var formData = {};
     formData["warehouse"] = document.getElementById("warehouse").value;
@@ -97,6 +121,8 @@ function readFormData() {
     return formData;
 }
 
+// this function creates new records in the HTML table
+	
 function insertNewRecord(data) {
     var table = document.getElementById("inventoryList").getElementsByTagName('tbody')[0];
     var newRow = table.insertRow(table.length);
@@ -110,6 +136,8 @@ function insertNewRecord(data) {
     cell4.innerHTML = `<a onClick="onEdit(this)">Edit</a>
                        <a onClick="onDelete(this)">Delete</a>`;
 }
+	
+//This function resets the form after a form is sumbitted
 
 function resetForm() {
     document.getElementById("warehouse").value = "";
@@ -118,18 +146,24 @@ function resetForm() {
     selectedRow = null;
 }
 
+//this function allows the form to be edited when Edit is selected
+
 function onEdit(td) {
     selectedRow = td.parentElement.parentElement;
     document.getElementById("warehouse").value = selectedRow.cells[0].innerHTML;
     document.getElementById("item").value = selectedRow.cells[1].innerHTML;
     document.getElementById("quantity").value = selectedRow.cells[2].innerHTML;
 }
+	
+//this function updated the edited data
 
 function updateRecord(formData) {
     selectedRow.cells[0].innerHTML = formData.warehouse;
     selectedRow.cells[1].innerHTML = formData.item;
     selectedRow.cells[2].innerHTML = formData.quantity;
 }
+
+//This function allows for items to be deleted
 
 function onDelete(td) {
     if (confirm('Are you sure to delete this record ?')) {
@@ -138,6 +172,9 @@ function onDelete(td) {
         resetForm();
     }
 }
+
+//Below is the code for the additional challenge section
+//This function sorts items by their assigned warehouse number
 
 function sortTable() {
   var table, rows, switching, i, x, y, shouldSwitch;
@@ -150,7 +187,7 @@ function sortTable() {
       shouldSwitch = false;
       x = rows[i].getElementsByTagName("TD")[0];
       y = rows[i + 1].getElementsByTagName("TD")[0];
-      if (Number(x.innerHTML) > Number(y.innerHTML)) {
+      if (Number(x.innerHTML) > Number(y.innerHTML)) {  //if x>y then x and y switch places
         shouldSwitch = true;
         break;
       }
@@ -167,3 +204,4 @@ function sortTable() {
 </body>
 </html>
 
+<! Thats all! >
