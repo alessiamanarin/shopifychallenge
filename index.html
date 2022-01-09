@@ -111,7 +111,7 @@ function onFormSubmit() {
     resetForm();
 }
 
-//this function stores the information from the dorm as a value
+//this function stores the information from the form as a value
 	
 function readFormData() {
     var formData = {};
@@ -155,7 +155,7 @@ function onEdit(td) {
     document.getElementById("quantity").value = selectedRow.cells[2].innerHTML;
 }
 	
-//this function updated the edited data
+//this function updates the edited data
 
 function updateRecord(formData) {
     selectedRow.cells[0].innerHTML = formData.warehouse;
